@@ -193,8 +193,8 @@ func ListDir(remote string) {
 }
 
 func ArgError() {
-	fmt.Println("Usage: cosput [-f file] [-d dir] [path]")
-	fmt.Println("Default: path = .")
+	fmt.Println("Usage: cosget [-f remote_file] [-d remote_dir] [local_path]")
+	fmt.Println("Hint: 当 remote_dir = . 时 匹配所有文件")
 }
 
 func main() {
