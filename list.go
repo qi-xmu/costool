@@ -25,6 +25,7 @@ func ListFunc() {
 	fmt.Printf("\033[1;7m%-36s%-36s%8s%12s\033[0m\n",
 		"Prefix", "Name", "State ", "Size(KB)")
 	ListDir(remote)
+	os.Exit(0)
 }
 
 func ListDir(remote string) {

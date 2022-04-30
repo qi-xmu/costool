@@ -4,6 +4,7 @@ import (
 	"context"
 	"flag"
 	"fmt"
+	"os"
 	"path/filepath"
 	"strings"
 
@@ -25,6 +26,7 @@ func GetFunc() {
 	fmt.Printf("\033[1;7m%-8s%-30s%s%-30s%8s%12s\033[0m\n",
 		"Type", "Remote", "=> ", "Local", "State ", "Size(KB)")
 	GetKey(remote, local)
+	os.Exit(0)
 }
 
 type SelfListener struct {
@@ -38,8 +40,7 @@ func (l *SelfListener) ProgressChangedCallback(event *cos.ProgressEvent) {
 		percent := event.ConsumedBytes * 100 / event.TotalBytes
 		fmt.Printf("%3d%%\033[4D", percent)
 	case cos.ProgressCompletedEvent:
-		fmt.Print("[\033[32m ✓ \033[0m]")
-		fmt.Printf("%12.3f\n", B2KB(event.TotalBytes))
+
 	}
 }
 
@@ -71,12 +72,14 @@ func GetFile(remote string, local string, flag bool) {
 	opt := &cos.ObjectGetOptions{
 		Listener: &SelfListener{},
 	}
-	_, err := c.Object.GetToFile(context.Background(), remote, local, opt)
+	Resp, err := c.Object.GetToFile(context.Background(), remote, local, opt)
 	if err != nil {
 		fmt.Print("[\033[31m ✕ \033[0m]")
 		ErrorP(err)
 		return
 	}
+	fmt.Print("[\033[32m ✓ \033[0m]")
+	fmt.Printf("%12.3f\n", B2KB(Resp.ContentLength))
 }
 
 func GetKey(remote string, local string) {

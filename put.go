@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"io/ioutil"
+	"os"
 	"path/filepath"
 	"strings"
 
@@ -32,6 +33,7 @@ func PutFunc() {
 	} else {
 		PutFile(local, remote)
 	}
+	os.Exit(0)
 }
 
 func PutFile(local string, remote string) {
@@ -58,6 +60,8 @@ func PutFile(local string, remote string) {
 		ErrorP(err)
 		return
 	}
+	fmt.Print("[\033[32m ✓ \033[0m]")
+	fmt.Printf("%12.3f\n", B2KB(FileSize(local)))
 }
 
 func PutDir(local string, remote string) {

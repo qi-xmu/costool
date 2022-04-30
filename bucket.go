@@ -55,7 +55,7 @@ func SelectBucket() {
 			conf.Region = buck[num].Region
 
 			SaveConfig()
-			return
+			os.Exit(0)
 		}
 	}
 }

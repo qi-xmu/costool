@@ -48,9 +48,7 @@ func main() {
 	if *lis {
 		ListFunc()
 	}
-	if *buc && !*put && !*lis && !*get {
-		ArgError()
-	}
+	ArgError()
 }
 func ArgError() {
 	flag.PrintDefaults()
