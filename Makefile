@@ -13,5 +13,6 @@ clean:
 	rm bin/*
 test:
 	@make
+	# rm test -rf
 	# ./bin/$(proj)  -p README.md bin/
-	./bin/$(proj)  -p . eset/
+	./bin/$(proj) -g eset test/

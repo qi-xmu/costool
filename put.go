@@ -14,24 +14,20 @@ import (
 // main put func
 
 func PutFunc() {
-	var remote string
-	var local string
 	narg := flag.NArg()
 	if narg != 1 && narg != 2 {
 		ArgError()
 		return
 	}
-	local = flag.Args()[0]
-	remote = flag.Args()[0]
+	local := flag.Args()[0]
+	remote := flag.Args()[0]
 	if flag.NArg() == 2 {
 		remote = flag.Args()[1]
 	}
-	fmt.Printf("Local %s  Remote %s\n", local, remote)
-	fmt.Println(IsDir(local))
-	fmt.Printf("\033[1;7m%-8s%-12s%-30s%s%-30s%8s\033[0m\n",
-		"Type", "Size(MB)", "Source", "=> ", "Target", "State ")
+	fmt.Printf("\033[1;7m%-8s%-30s%s%-30s%8s%12s\033[0m\n",
+		"Type", "Local", "=> ", "Remote", "State ", "Size(KB)")
 	if IsDir(local) {
-		remote = filepath.Join(remote, local)
+		remote = remote + "/" + filepath.Base(local)
 		PutDir(local, remote)
 	} else {
 		PutFile(local, remote)
@@ -39,13 +35,13 @@ func PutFunc() {
 }
 
 func PutFile(local string, remote string) {
-	size := float64(FileExist(local)) / (1 << 20)
+	size := float64(FileSize(local)) / (1 << 20)
 	if size > (1 << 5) {
 		fmt.Println("\033[31mFile too big, Max size = 32MB.\033[0m")
 		return
 	}
 	remote = strings.Replace(remote, "\\", "/", -1)
-	if remote[len(remote)-1] == '/' {
+	if DirString(remote) {
 		remote = filepath.Join(remote, filepath.Base(local))
 	}
 
@@ -54,16 +50,14 @@ func PutFile(local string, remote string) {
 			Listener: &SelfListener{},
 		},
 	}
-
-	fmt.Printf("%-8s%-12.2f%-30s%s%-30s%-2s", "FIlE", size, local, "=> ", remote, "")
+	PutPrint(local, remote)
 	_, err := c.Object.PutFromFile(context.Background(), remote, local, opt)
 
 	if err != nil {
-		fmt.Println("[\033[31m ✕ \033[0m]")
-		ErrorP("Error...", err)
+		fmt.Print("[\033[31m ✕ \033[0m]")
+		ErrorP(err)
 		return
 	}
-	fmt.Println("[\033[32m ✓ \033[0m]")
 }
 
 func PutDir(local string, remote string) {
@@ -82,5 +76,5 @@ func PutDir(local string, remote string) {
 			PutFile(source, target) // 出口
 		}
 	}
-	fmt.Printf("\033[1;4;32m%-8s%-70s\033[0m\n", "< END", local)
+	fmt.Printf("\033[12C\033[1;4;32m%-8s%70s\033[0m\n", "< END", local)
 }

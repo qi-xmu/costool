@@ -13,9 +13,10 @@ import (
 var c *cos.Client
 
 var put = flag.Bool("p", false, "上传文件. -p [local]path [remote]key")
-var get = flag.Bool("g", false, "下载文件. -g [remote]key [local]path")
+var get = flag.Bool("g", false, "下载文件. -g [remote]Prekey [local]Dir")
 var buc = flag.Bool("b", false, "更改bucket. -b")
 var lis = flag.Bool("l", false, "列出所有文件 -l [remote]key*")
+var ove = flag.Bool("y", false, "默认覆盖文件")
 
 func init() {
 	init_config()
@@ -30,6 +31,7 @@ func init() {
 			SessionToken: conf.SessionToken,
 		},
 	})
+	fmt.Print("\033[1A\033[K\033[1A\033[K")
 }
 
 func main() {
@@ -46,4 +48,10 @@ func main() {
 	if *lis {
 		ListFunc()
 	}
+	if *buc && !*put && !*lis && !*get {
+		ArgError()
+	}
+}
+func ArgError() {
+	flag.PrintDefaults()
 }
