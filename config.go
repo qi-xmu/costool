@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
+	"os"
 	"os/user"
 	"path/filepath"
 
@@ -45,7 +46,16 @@ func config(path string) {
 	bytes, _ := ioutil.ReadFile(path)
 	err := yaml.Unmarshal(bytes, &conf)
 	if err != nil {
-		panic("config parser fail")
+		ErrorP("config parser fail")
+		ErrorP("请在用户目录创建 .costool.yaml文件")
+		ErrorP("填写格式如下")
+		fmt.Println("UserID: xxxxxx\n",
+			"Region: xxxxxx\n",
+			"Bucket: xxxxxx\n",
+			"SecretID: xxxxxx\n",
+			"SecretKey: xxxxxx")
+
+		os.Exit(1)
 	}
 }
 
