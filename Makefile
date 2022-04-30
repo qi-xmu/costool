@@ -2,7 +2,7 @@ proj:= costool
 bindir := /usr/local/bin
 .PHONY: build
 build:
-	go build -o bin/ dacazh.com/costool 
+	go build -o bin/costool dacazh.com/costool 
 
 .PHONY: run
 run:
