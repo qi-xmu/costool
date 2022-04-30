@@ -8,7 +8,7 @@ build:
 run:
 	@go run dacazh.com/$(proj)
 
-.PHONY: clean test
+.PHONY: clean test install uninstall
 clean:
 	rm bin/*
 test:
@@ -20,3 +20,6 @@ test:
 install:
 	install -d $(bindir)
 	install -m 0755 bin/$(proj)  $(bindir)
+
+uninstall:
+	rm  $(bindir)/$(proj)
