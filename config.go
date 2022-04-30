@@ -43,9 +43,9 @@ func init_config() {
 
 // 加载config
 func config(path string) {
-	bytes, _ := ioutil.ReadFile(path)
+	bytes, errP := ioutil.ReadFile(path)
 	err := yaml.Unmarshal(bytes, &conf)
-	if err != nil {
+	if err != nil || errP != nil {
 		ErrorP("config parser fail")
 		ErrorP("请在用户目录创建 .costool.yaml文件")
 		ErrorP("填写格式如下")
