@@ -2,12 +2,35 @@ package main
 
 import (
 	"context"
+	"flag"
 	"fmt"
 	"os"
 	"path/filepath"
 
 	"github.com/tencentyun/cos-go-sdk-v5"
 )
+
+// main get func
+func GetFunc() {
+	if flag.NArg() != 2 {
+		ArgError()
+		return
+	}
+	local := flag.Args()[0]
+	remote := flag.Args()[1]
+	fmt.Printf("Remote %s\n Local %s\n", remote, local)
+}
+
+// main list func
+
+func ListFunc() {
+	if flag.NArg() != 1 {
+		ArgError()
+		return
+	}
+	remote := flag.Args()[0]
+	fmt.Printf("Remote %s\n", remote)
+}
 
 type SelfListener struct {
 }

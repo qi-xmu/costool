@@ -1,16 +1,21 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"net/http"
 	"net/url"
-	"os"
 	"time"
 
 	"github.com/tencentyun/cos-go-sdk-v5"
 )
 
 var c *cos.Client
+
+var put = flag.Bool("p", false, "上传文件. -p [local]path [remote]key")
+var get = flag.Bool("g", false, "下载文件. -g [remote]key [local]path")
+var buc = flag.Bool("b", false, "更改bucket. -b")
+var lis = flag.Bool("l", false, "列出所有文件 -l [remote]key*")
 
 func init() {
 	init_config()
@@ -28,36 +33,17 @@ func init() {
 }
 
 func main() {
-	cnt := len(os.Args) // 参数长度
-
-	if cnt == 3 || cnt == 4 {
-		remote := os.Args[2]
-		local := "./"
-		if cnt == 4 {
-			local = os.Args[3]
-		}
-		fmt.Printf("\033[1;7m%-8s%-30s%s%-30s%8s%12s\033[0m\n",
-			"No.", "Remote", "=> ", "Local", "State", "Size(KB)")
-		switch os.Args[1][1] {
-		case 'f': // file
-			GetFile(remote, local, false)
-		case 'd': // dir
-			GetDir(remote, local)
-		case 'l':
-			ListDir(remote)
-		default:
-			ArgError()
-		}
-		return
+	flag.Parse()
+	if *buc {
+		SelectBucket()
 	}
-	if cnt == 2 {
-		switch os.Args[1][1] {
-		case 'b':
-			SelectBucket()
-		default:
-			ArgError()
-		}
-		return
+	if *put {
+		PutFunc()
 	}
-	ArgError()
+	if *get {
+		GetFunc()
+	}
+	if *lis {
+		ListFunc()
+	}
 }

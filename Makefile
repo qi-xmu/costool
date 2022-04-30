@@ -12,4 +12,6 @@ run:
 clean:
 	rm bin/*
 test:
-	@go run dacazh.com/$(proj) -l .
+	@make
+	# ./bin/$(proj)  -p README.md bin/
+	./bin/$(proj)  -p . eset/
