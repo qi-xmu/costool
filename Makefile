@@ -1,5 +1,5 @@
 proj:= costool
-
+bindir := /usr/local/bin
 .PHONY: build
 build:
 	go build -o bin/ dacazh.com/costool 
@@ -16,3 +16,7 @@ test:
 	# rm test -rf
 	# ./bin/$(proj)  -p README.md bin/
 	./bin/$(proj) -g eset test/
+
+install:
+	install -d $(bindir)
+	install -m 0755 bin/$(proj)  $(bindir)
