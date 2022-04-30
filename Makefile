@@ -2,7 +2,7 @@ proj:= costool
 bindir := /usr/local/bin
 .PHONY: build
 build:
-	go build -o bin/costool dacazh.com/costool 
+	go build -o bin/$(proj) dacazh.com/$(proj)
 
 .PHONY: run
 run:
@@ -15,7 +15,7 @@ test:
 	@make
 	# rm test -rf
 	# ./bin/$(proj)  -p README.md bin/
-	./bin/$(proj) -g eset test/
+	# ./bin/$(proj) -g eset test/
 
 install:
 	install -d $(bindir)
