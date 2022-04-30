@@ -50,10 +50,8 @@ func config(path string) {
 		ErrorP("请在用户目录创建 .costool.yaml文件")
 		ErrorP("填写格式如下")
 		fmt.Println("UserID: xxxxxx\n" +
-			"Region: xxxxxx\n" +
-			"Bucket: xxxxxx\n" +
 			"SecretID: xxxxxx\n" +
-			"SecretKey: xxxxxx")
+			"SecretKey: xxxxxx\n")
 
 		os.Exit(1)
 	}
