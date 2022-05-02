@@ -13,9 +13,9 @@ clean:
 	rm bin/*
 test:
 	@make
-	# rm test -rf
-	# ./bin/$(proj)  -p README.md bin/
-	# ./bin/$(proj) -g eset test/
+	./bin/$(proj) -g hello-world
+	@cat hello-world
+	@rm hello-world
 
 install:
 	install -d $(bindir)

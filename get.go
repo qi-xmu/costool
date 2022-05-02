@@ -11,6 +11,8 @@ import (
 	"github.com/tencentyun/cos-go-sdk-v5"
 )
 
+var sign bool
+
 // main get func
 func GetFunc() {
 	narg := flag.NArg()
@@ -19,8 +21,10 @@ func GetFunc() {
 		return
 	}
 	remote := flag.Args()[0]
-	local := "./"
+	local := "."
+	sign = true
 	if flag.NArg() == 2 {
+		sign = *ove
 		local = flag.Args()[1]
 	}
 	fmt.Printf("\033[1;7m%-8s%-30s%s%-30s%8s%12s\033[0m\n",
@@ -83,15 +87,14 @@ func GetFile(remote string, local string, flag bool) {
 }
 
 func GetKey(remote string, local string) {
-	var flag bool = *ove
-	if IsDir(local) && !flag {
+	if IsDir(local) && !sign {
 		var ch string
 		fmt.Printf("\033[32m> %s 已存在，是否全部覆盖(a / n / e)?\033[0m ", local)
 		fmt.Scanf("%s", &ch)
 		if ch != "n" && ch != "a" {
 			return
 		}
-		flag = (ch == "a")
+		sign = (ch == "a")
 		fmt.Print("\033[1A")
 	}
 	if remote == "." {
@@ -125,7 +128,7 @@ func GetKey(remote string, local string) {
 			if DirString(local) {
 				glocal += gremote[strings.LastIndexByte(gremote, '/'):]
 			} // file --> dir
-			GetFile(gremote, glocal, flag)
+			GetFile(gremote, glocal, sign)
 		}
 		isTruncated = v.IsTruncated // 是否还有数据
 		marker = v.NextMarker       // 设置下次请求的起始 key
