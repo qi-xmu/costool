@@ -2,7 +2,7 @@
 
 ## 使用截图
 
-![img](https://secure2.wostatic.cn/static/3Q1hrmDFJRzUics4N44Hz/image.png?auth_key=1651510137-kVeK3wqydMBUzsSo3tM4iB-0-bd8260adde51e42c20c027a2f0ff6c7f)
+![img](https://secure2.wostatic.cn/static/xzPbQqStobNeVy5cYGJSJx/image%20(3).png?auth_key=1651511139-9cRGb54AzD5vvk72TaeXhg-0-0734dee7aaaea205b59c7a56b6035f42)
 
 ## 使用方法
 
